@@ -7,7 +7,7 @@ Module is continually checking the health of PM2 NodeJS processes by calling the
 Installation
 ------------
 
-    pm2 install ma-zal/pm2-watchdog@development
+    pm2 install ma-zal/pm2-watchdog#development
 
 Configuration
 -------------

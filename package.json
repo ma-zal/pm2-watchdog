@@ -1,13 +1,13 @@
 {
-  "name": "pm2-watchdog",  // Used as the module name
-  "version": "0.0.1",       // Used as the module version
-  "description": "Watches the processes's webserver healht.", // Used as the module comment
+  "name": "pm2-watchdog",
+  "version": "0.0.1",
+  "description": "Watches the processes's webserver health.",
   "dependencies": {
     "pmx": "latest"
   },
-  "config": {              // Default configuration values
+  "config": {
   },
-  "apps" : [{              // Module behavior options
+  "apps" : [{
     "script"             : "index.js",
     "merge_logs"         : true,
     "max_memory_restart" : "200M"

@@ -1,0 +1,17 @@
+{
+  "name": "pm2-watchdog",  // Used as the module name
+  "version": "0.0.1",       // Used as the module version
+  "description": "Watches the processes's webserver healht.", // Used as the module comment
+  "dependencies": {
+    "pmx": "latest"
+  },
+  "config": {              // Default configuration values
+  },
+  "apps" : [{              // Module behavior options
+    "script"             : "index.js",
+    "merge_logs"         : true,
+    "max_memory_restart" : "200M"
+  }],
+  "author": "Martin Zaloudek, www.zal.cz",
+  "license": "MIT"
+}

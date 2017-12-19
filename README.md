@@ -1,25 +1,57 @@
 PM2 module: Webserver Watchdog
 ==============================
 
-Module is continually checking the health of PM2 NodeJS processes by calling the specified HTTP(s) endpoint. If the HTTP server is unavailable or response is not `2xx`, the PM2 process will be restarted.
+Module is continuously checking the health of PM2 NodeJS processes by calling the specified HTTP(s) endpoint. If the HTTP server is unavailable or response is not `2xx`, the PM2 process will be restarted.
 
 
 Installation
 ------------
 
-    pm2 install ma-zal/pm2-watchdog#development
+```bash
+pm2 install ma-zal/pm2-watchdog
+```
 
-Configuration
--------------
 
-    pm2 set pm2-watchdog:url-{{PM2_PROCESS_NAME}} {{URL}}
+Basic configuration
+-------------------
+
+```bash
+# Enable watching for PM2_PROCESS_NAME. Module will continuously checks the availability of URL.
+pm2 set pm2-watchdog:url-PM2_PROCESS_NAME URL
+
+```
 
 Example:
 
-    pm2 set pm2-watchdog:url-helloworld http://localhost:3000/status
+```bash
+pm2 set pm2-watchdog:url-helloworld http://localhost:3000/status
+```
+
+Optional advanced configuration
+-------------------------------
+
+```bash
+# Set the webserver checking for every NUMBER seconds.
+# Default is 10 seconds (if no value is specified).
+pm2 set pm2-watchdog:checking_interval NUMBER
+
+# Set the app restart when NUMBER webserver checks had failed in a row.
+# Default is 3 times (if no value is specified).
+pm2 set pm2-watchdog:fails_to_restart NUMBER
+
+# Enable message output level.
+# Note: Log files are `~/.pm2/logs/pm2-watchdog-out.log`
+#                 and `~/.pm2/logs/pm2-watchdog-error.log`
+# Default is `info` (if no value is specified).
+# Possible values (levels):
+#   `info`  - info messages only (default)
+#   `debug` - info + debug messages
+#   `trace` - info + debug + trace messages
+pm2 set pm2-watchdog:debug LEVEL
+```
 
 
----
-Warning: Module is under develepoment process. No stable build yet.
-
----
+Logging
+-------
+The processes restarts are logged to error log file (to error output).
+Therefore if you are tracking errors of your applications, you can redirect the error messages to get complete overview what is happening in your server.

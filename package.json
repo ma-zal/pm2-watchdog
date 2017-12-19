@@ -1,17 +1,32 @@
 {
   "name": "pm2-watchdog",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Watches the processes's webserver health.",
   "dependencies": {
-    "pmx": "latest"
+    "console-stamp": "^0.2.6",
+    "pmx": "latest",
+    "request-promise": "^4.2.2"
   },
+  "files": [
+    "index.js",
+    "class-process-watchdog.js"
+  ],
   "config": {
+    "debug": "info",
+    "checking_interval": 10,
+    "fails_to_restart": 3
   },
-  "apps" : [{
-    "script"             : "index.js",
-    "merge_logs"         : true,
-    "max_memory_restart" : "200M"
-  }],
+  "apps": [
+    {
+      "script": "index.js",
+      "merge_logs": true,
+      "max_memory_restart": "200M"
+    }
+  ],
   "author": "Martin Zaloudek, www.zal.cz",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.13.1",
+    "eslint-config-google": "^0.9.1"
+  }
 }

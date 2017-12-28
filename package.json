@@ -16,7 +16,8 @@
   "config": {
     "debug": "info",
     "checking_interval": 10,
-    "fails_to_restart": 3
+    "fails_to_restart": 3,
+    "checking_timeout": 15000
   },
   "apps": [
     {

@@ -5,7 +5,9 @@
   "dependencies": {
     "console-stamp": "^0.2.6",
     "pmx": "latest",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "pm2": "latest",
+    "request": "latest"
   },
   "files": [
     "index.js",

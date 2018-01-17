@@ -108,7 +108,7 @@ class ProcessWatchdog {
 
             // Calculate time, when to execute the webserver check.
             const processUptime = (new Date().getTime()) - processDescription.pm2_env.created_at;
-            const executeWatchdogAfter = Math.max(processDescription.pm2_env.min_uptime - processUptime, this.options.checkingInterval, 1000);
+            const executeWatchdogAfter = Math.max(processDescription.pm2_env.min_uptime - processUptime, parseInt(this.options.checkingInterval), 1000);
             console.trace(`Process ${this.name} - next checking after ${(executeWatchdogAfter/1000).toFixed(0)}s`);
 
             // Plan the next execution
@@ -117,9 +117,17 @@ class ProcessWatchdog {
 
                 if (!this.isRunning) { return; }
 
-                console.trace(`Process ${this.name} - webserver checking executed`);
+                var timeout = parseInt(this.options.checkingTimeout || 15000);
+                console.trace(`Process ${this.name} - webserver checking executed timeout ${timeout}`);
 
-                rp(this.options.watchedUrl).then(() => {
+                rp({
+                    uri: this.options.watchedUrl,
+                    method: "GET",
+                    timeout:timeout,
+                    headers: {
+                        'User-Agent': "PM2 Healthcheck"
+                    }
+                }).then(() => {
                     this.failsCountInRow = 0;
                     console.debug(`Process ${this.name} - webserver response ok`);
                 }).catch(() => {

@@ -48,6 +48,10 @@ pm2 set pm2-watchdog:fails_to_restart NUMBER
 #   `debug` - info + debug messages
 #   `trace` - info + debug + trace messages
 pm2 set pm2-watchdog:debug LEVEL
+
+# Web request timeout in millis NUMBER .
+# Default is 5000 millis.
+pm2 set pm2-watchdog:checking_timeout NUMBER
 ```
 
 
@@ -55,3 +59,12 @@ Logging
 -------
 The processes restarts are logged to error log file (to error output).
 Therefore if you are tracking errors of your applications, you can redirect the error messages to get complete overview what is happening in your server.
+
+
+Version Changelog
+-----------------
+
+###### 1.0.1 (17.1.2018)
+
+ - Added configurable request timeout
+ 

@@ -1,11 +1,13 @@
 {
   "name": "pm2-watchdog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Watches the processes's webserver health.",
   "dependencies": {
     "console-stamp": "^0.2.6",
     "pmx": "latest",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "pm2": "latest",
+    "request": "latest"
   },
   "files": [
     "index.js",
@@ -14,7 +16,8 @@
   "config": {
     "debug": "info",
     "checking_interval": 10,
-    "fails_to_restart": 3
+    "fails_to_restart": 3,
+    "checking_timeout": 5000
   },
   "apps": [
     {
@@ -26,7 +29,7 @@
   "author": "Martin Zaloudek, www.zal.cz",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^4.13.1",
+    "eslint": "^4.15.0",
     "eslint-config-google": "^0.9.1"
   }
 }

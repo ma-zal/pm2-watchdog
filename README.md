@@ -48,6 +48,10 @@ pm2 set pm2-watchdog:fails_to_restart NUMBER
 #   `debug` - info + debug messages
 #   `trace` - info + debug + trace messages
 pm2 set pm2-watchdog:debug LEVEL
+
+# Web request timeout in millis NUMBER .
+# Default is 5000 millis.
+pm2 set pm2-watchdog:checking_timeout NUMBER
 ```
 
 

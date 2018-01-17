@@ -59,3 +59,12 @@ Logging
 -------
 The processes restarts are logged to error log file (to error output).
 Therefore if you are tracking errors of your applications, you can redirect the error messages to get complete overview what is happening in your server.
+
+
+Version Changelog
+-----------------
+
+###### 1.0.1 (17.1.2018)
+
+ - Added configurable request timeout
+ 

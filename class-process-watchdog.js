@@ -108,7 +108,8 @@ class ProcessWatchdog {
 
             // Calculate time, when to execute the webserver check.
             const processUptime = (new Date().getTime()) - processDescription.pm2_env.created_at;
-            const executeWatchdogAfter = Math.max(processDescription.pm2_env.min_uptime - processUptime, parseInt(this.options.checkingInterval), 1000);
+            const minUptime = typeof(processDescription.pm2_env.min_uptime) !== 'undefined' ? processDescription.pm2_env.min_uptime : 1000;
+            const executeWatchdogAfter = Math.max(minUptime - processUptime, parseInt(this.options.checkingInterval), 1000);
             console.trace(`Process ${this.name} - next checking after ${(executeWatchdogAfter/1000).toFixed(0)}s`);
 
             // Plan the next execution

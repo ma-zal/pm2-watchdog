@@ -16,16 +16,16 @@ const moduleConfig = pmx.initModule((err, conf) => {
 });
 
 
-// log/debug/error messages
-console.debug = function(msg) { console.log(msg); };
-console.trace = function(msg) { console.log(msg); };
+// Extending the console with a custom method
+console.debug = function(msg) { console.org.log(msg); };
+console.trace = function(msg) { console.org.log(msg); };
+// Initialising the console output formatter
 require('console-stamp')(console, {
-    pattern: `UTC:yyyy-mm-dd'T'HH:MM:ss'Z'`,
     extend: {
         debug: 5,
         trace: 6,
     },
-    include: ['trace', 'debug', 'info', 'warm', 'error'],
+    include: ['trace', 'debug', 'log', 'info', 'warm', 'error'],
     level: moduleConfig.debug,
 });
 
@@ -122,7 +122,7 @@ pm2.launchBus(function(err, bus) {
                 // case 'delete':
                 // case 'restart':
             }
-        }
+        },
 
     );
 });
@@ -139,8 +139,7 @@ const watchdogs = new Map();
  * @param {Pm2Env} pm2Env
  */
 function startOrRestartWatchdog(pm2Env) {
-    const watchedUrlPropertyName = `url-${pm2Env.name}`;
-    const watchedUrl = moduleConfig[watchedUrlPropertyName];
+    const watchedUrl = moduleConfig[`url-${pm2Env.name}`];
 
     if (!watchedUrl) {
         console.trace(`Process ${pm2Env.name} - no watchdog configuration`);
@@ -154,9 +153,10 @@ function startOrRestartWatchdog(pm2Env) {
     // Create the new watchdog of new process
     watchdog = new ProcessWatchdog(pm2Env, {
         watchedUrl: watchedUrl,
-        checkingInterval: moduleConfig.checking_interval * 1000,
+        watchedUrlAuth: moduleConfig[`urlauth-${pm2Env.name}`],
+        checkingInterval: parseInt(moduleConfig.checking_interval, 10) || 10,
         failsToRestart: moduleConfig.fails_to_restart,
-        checkingTimeout: moduleConfig.checking_timeout
+        checkingTimeout: parseInt(moduleConfig.checking_timeout) || 5000,
     });
     // Store new watchdog to watchdogs list
     watchdogs.set(pm2Env.pm_id, watchdog);

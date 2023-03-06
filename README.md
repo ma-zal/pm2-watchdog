@@ -31,6 +31,12 @@ Optional advanced configuration
 -------------------------------
 
 ```bash
+# Adds the basic authorization to watching URL request.
+# Use string in format `USERNAME:PASSWORD`
+#
+# Example: `pm2 set pm2-watchdog:urlauth-myapp foo:bar`
+pm2 set pm2-watchdog:urlauth-PM2_PROCESS_NAME STRING
+
 # Set the webserver checking for every NUMBER seconds.
 # Default is 10 seconds (if no value is specified).
 pm2 set pm2-watchdog:checking_interval NUMBER
@@ -49,8 +55,8 @@ pm2 set pm2-watchdog:fails_to_restart NUMBER
 #   `trace` - info + debug + trace messages
 pm2 set pm2-watchdog:debug LEVEL
 
-# Web request timeout in millis NUMBER .
-# Default is 5000 millis.
+# Web request timeout in NUMBER milliseconds.
+# Default is 5000 miliseconds (if no value is specified).
 pm2 set pm2-watchdog:checking_timeout NUMBER
 ```
 
@@ -64,7 +70,9 @@ Therefore if you are tracking errors of your applications, you can redirect the 
 Version Changelog
 -----------------
 
+###### 1.0.2 (6.3.2023)
+- Added optional basic authorization.
+
 ###### 1.0.1 (17.1.2018)
 
- - Added configurable request timeout
- 
+- Added configurable request timeout.

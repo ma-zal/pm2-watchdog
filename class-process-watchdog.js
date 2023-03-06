@@ -109,7 +109,7 @@ class ProcessWatchdog {
             // Calculate time, when to execute the webserver check.
             const processUptime = (new Date().getTime()) - processDescription.pm2_env.created_at;
             const minUptime = typeof(processDescription.pm2_env.min_uptime) !== 'undefined' ? processDescription.pm2_env.min_uptime : 1000;
-            const executeWatchdogAfter = Math.max(minUptime - processUptime, parseInt(this.options.checkingInterval), 1000);
+            const executeWatchdogAfter = Math.max(minUptime - processUptime, this.options.checkingInterval * 1000, 1000);
             console.trace(`Process ${this.name} - next checking after ${(executeWatchdogAfter/1000).toFixed(0)}s`);
 
             // Plan the next execution
@@ -118,16 +118,19 @@ class ProcessWatchdog {
 
                 if (!this.isRunning) { return; }
 
-                var timeout = parseInt(this.options.checkingTimeout || 15000);
-                console.trace(`Process ${this.name} - webserver checking executed timeout ${timeout}`);
+                console.trace(`Process ${this.name} - webserver checking executed timeout ${this.options.checkingInterval}`);
+
+                const headers = {};
+                headers['User-Agent'] = 'PM2 Healthcheck';
+                if (this.options.watchedUrlAuth) {
+                    headers['Authorization'] = 'Basic ' + Buffer.from(this.options.watchedUrlAuth).toString('base64');
+                }
 
                 rp({
                     uri: this.options.watchedUrl,
-                    method: "GET",
-                    timeout:timeout,
-                    headers: {
-                        'User-Agent': "PM2 Healthcheck"
-                    }
+                    method: 'GET',
+                    timeout: this.options.checkingTimeout,
+                    headers: headers,
                 }).then(() => {
                     this.failsCountInRow = 0;
                     console.debug(`Process ${this.name} - webserver response ok`);
@@ -207,6 +210,7 @@ module.exports = ProcessWatchdog;
 /**
  * @typedef {object} WatchdogOptions
  * @property {string} watchedUrl
+ * @property {string|undefined} watchedUrlAuth
  * @property {number} checkingInterval
  * @property {number} failsToRestart
  */

@@ -120,17 +120,17 @@ class ProcessWatchdog {
 
                 console.trace(`Process ${this.name} - webserver checking executed timeout ${this.options.checkingInterval}`);
 
-                var headers = {}
-                headers['User-Agent'] = "PM2 Healthcheck"
-                if(this.options.watchedUrlAuth) {
-                    headers['Authorization'] = "Basic " + Buffer.from(this.options.watchedUrlAuth).toString("base64");
+                const headers = {};
+                headers['User-Agent'] = 'PM2 Healthcheck';
+                if (this.options.watchedUrlAuth) {
+                    headers['Authorization'] = 'Basic ' + Buffer.from(this.options.watchedUrlAuth).toString('base64');
                 }
 
                 rp({
                     uri: this.options.watchedUrl,
-                    method: "GET",
+                    method: 'GET',
                     timeout: this.options.checkingTimeout,
-                    headers: headers
+                    headers: headers,
                 }).then(() => {
                     this.failsCountInRow = 0;
                     console.debug(`Process ${this.name} - webserver response ok`);

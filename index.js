@@ -16,16 +16,16 @@ const moduleConfig = pmx.initModule((err, conf) => {
 });
 
 
-// log/debug/error messages
-console.debug = function(msg) { console.log(msg); };
-console.trace = function(msg) { console.log(msg); };
+// Extending the console with a custom method
+console.debug = function(msg) { console.org.log(msg); };
+console.trace = function(msg) { console.org.log(msg); };
+// Initialising the console output formatter
 require('console-stamp')(console, {
-    pattern: `UTC:yyyy-mm-dd'T'HH:MM:ss'Z'`,
     extend: {
         debug: 5,
         trace: 6,
     },
-    include: ['trace', 'debug', 'info', 'warm', 'error'],
+    include: ['trace', 'debug', 'log', 'info', 'warm', 'error'],
     level: moduleConfig.debug,
 });
 
@@ -122,7 +122,7 @@ pm2.launchBus(function(err, bus) {
                 // case 'delete':
                 // case 'restart':
             }
-        }
+        },
 
     );
 });
@@ -156,7 +156,7 @@ function startOrRestartWatchdog(pm2Env) {
         watchedUrlAuth: moduleConfig[`urlauth-${pm2Env.name}`],
         checkingInterval: parseInt(moduleConfig.checking_interval, 10) || 10,
         failsToRestart: moduleConfig.fails_to_restart,
-        checkingTimeout: parseInt(moduleConfig.checking_timeout) || 5000
+        checkingTimeout: parseInt(moduleConfig.checking_timeout) || 5000,
     });
     // Store new watchdog to watchdogs list
     watchdogs.set(pm2Env.pm_id, watchdog);

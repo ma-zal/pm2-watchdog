@@ -139,8 +139,7 @@ const watchdogs = new Map();
  * @param {Pm2Env} pm2Env
  */
 function startOrRestartWatchdog(pm2Env) {
-    const watchedUrlPropertyName = `url-${pm2Env.name}`;
-    const watchedUrl = moduleConfig[watchedUrlPropertyName];
+    const watchedUrl = moduleConfig[`url-${pm2Env.name}`];
 
     if (!watchedUrl) {
         console.trace(`Process ${pm2Env.name} - no watchdog configuration`);
@@ -154,9 +153,10 @@ function startOrRestartWatchdog(pm2Env) {
     // Create the new watchdog of new process
     watchdog = new ProcessWatchdog(pm2Env, {
         watchedUrl: watchedUrl,
-        checkingInterval: moduleConfig.checking_interval * 1000,
+        watchedUrlAuth: moduleConfig[`urlauth-${pm2Env.name}`],
+        checkingInterval: parseInt(moduleConfig.checking_interval, 10) || 10,
         failsToRestart: moduleConfig.fails_to_restart,
-        checkingTimeout: moduleConfig.checking_timeout
+        checkingTimeout: parseInt(moduleConfig.checking_timeout) || 5000
     });
     // Store new watchdog to watchdogs list
     watchdogs.set(pm2Env.pm_id, watchdog);
